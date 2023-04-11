@@ -24,7 +24,7 @@ c = 5j
 print(c, type(c), c**2)
 
 # int n round
-print(int(2.7), int(-2.7), round(2.7), round(-2.7), int(0.5), round(0.5))
+print(int(2.7), int(-2.7), round(2.7), round(-2.7), int(0.5), round(0.5), round(0.15, 1))
 
 # '"
 print("'apostrophie'")
@@ -41,8 +41,9 @@ print('abc' * 4)
 tmp = 'abcdefg a '
 print(tmp.count('a'))
 print(tmp.find('c'))
+print(tmp.find('z'))  # -1
 print(tmp.index('b'))
-# print(tmp.index('x')) # error
+# print(tmp.index('x'))  # error
 print(' ,'.join(tmp))
 print(tmp.upper())
 print(tmp.rstrip())
@@ -57,7 +58,7 @@ print(tmp.split('d'))
 tmp = list(range(10))
 tmp[2:3] = [10] * 4
 print(tmp)
-# tmp[2:4] = 10 # error
+# tmp[2:4] = 10  # error
 
 # list functions
 tmp = [i for i in range(5)]
@@ -239,3 +240,67 @@ bank_exp = Bank()
 print(dir(bank_exp))
 # _(Classname)__(funcname)이 되기 때문
 print([attr for attr in dir(bank_exp) if 'test' in attr])
+
+
+# 상속
+class Shape(object):
+    def __init__(self, color):
+        self._color = color
+
+    def get_color(self):
+        return self._color
+
+    def set_color(self, color):
+        self._color = color
+
+
+class Rectangle(Shape):
+    def __init__(self, color, width, length):
+        super().__init__(color)  # 부모 클래스의 __init__ 받아오기
+        self._width = width
+        self._length = length
+
+    def get_area(self):
+        return self._width * self._length
+
+    def set_color(self, color='red'):  # 메서드 오버라이딩
+        self._color = color
+
+
+rct = Rectangle('red', 10, 8)
+print(rct.get_color())
+print(rct.get_area())
+
+
+# 동적 바인딩
+class Student(object):
+    def __str__(self):
+        return 'Student'
+
+    def print_itself(self):
+        print(self.__str__())
+
+
+class GraduateStudent(Student):
+    def __init__(self):
+        super().__init__()
+
+    def __str__(self):
+        return 'Graduate Student'
+
+
+# 두줄씩 위치 바꾸면 출력 순서가 바뀜
+super_obj = Student()
+super_obj.print_itself()
+
+sub_obj = GraduateStudent()
+sub_obj.print_itself()
+
+# 연산자 오버로딩
+# + * - / % -> add, mul, sub, truediv, mod
+# < <= == != > >= -> lt le eq ne gt ge
+# [index] -> getitem
+# in -> contains
+# len -> len
+# str -> str
+# ex) __getitem__ 로 오버로딩

@@ -299,3 +299,52 @@ for i in range(n):
         print('draw')
     else:
         print('p2 won')
+
+
+# 상속과 다형성/실습 1
+class Person(object):
+    def __init__(self, age):
+        self.age = age
+
+    def __str__(self):
+        return f'Person {self.age}'
+
+    def __lt__(self, other):
+        return self.age < other.age
+
+    def __le__(self, other):
+        return self.age <= other.age
+
+    def __gt__(self, other):
+        return self.age > other.age
+
+    def __ge__(self, other):
+        return self.age >= other.age
+
+    def __eq__(self, other):
+        return self.age == other.age
+
+    def __ne__(self, other):
+        return self.age != other.age
+
+
+hj = Person(52)
+sy = Person(48)
+rh = Person(19)
+mj = Person(13)
+l = [hj, sy, rh, mj]
+l.sort()
+for p in l:
+    print(p)
+
+
+# 상속과 다형성/실습 2
+class ReverseIndexingList(list):
+    def __init__(self, list_obj):
+        super().__init__(list_obj)
+
+    def __getitem__(self, item):
+        return super().__getitem__(-item - 1)
+
+ril = ReverseIndexingList([1, 2, 3, 4, 5])
+print(ril[4])

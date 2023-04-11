@@ -1,1 +1,1 @@
-print(list(range(10))[0:3])
+print(range(5)[2:5][0])

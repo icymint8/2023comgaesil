@@ -328,3 +328,46 @@ print(sorted(x, reverse=True))
 # isinstance
 print(isinstance([1, 2, 3], list))
 
+
+# *args, **kwargs
+# *args: positional arguments
+# **kwargs: keyword arguments
+def test_args_and_kwargs(var1, var2, *args, **kwargs):
+    print(var1, var2, args, kwargs, sep='\n')
+
+
+test_args_and_kwargs('hello', 10, [1, 2, 3], a='bbb', b=123, c=[1, 4, 6])
+args = (1, 2, 3, 4, 5)
+kwargs = {'a': 10, 'b': 20}
+test_args_and_kwargs(*args, **kwargs)
+
+
+# nested function
+def my_func(text):
+    # text 바로 사용 가능
+    def dot_split():
+        return text.split('. ')
+
+    def comma_split(input_text):
+        return input_text.split(', ')
+
+    result1 = dot_split()
+    result2 = comma_split(text)
+
+    print(result1)
+    print(result2)
+
+
+my_func('apple, banana. 1, 2, 3. 4')
+
+
+# closure 예시
+# 함수를 둘러싼 환경(변수, 위치 등)을 유지하고 있다가 함수를 호출할 때 다시 꺼내서 사용하는 것을 closure라고 함
+def printer(tag):
+    def print_with_tag(message):
+        print(f'[{tag}]', message)
+
+    return print_with_tag
+
+print_warning = printer('warning')
+print_warning('virus!!')

@@ -1,4 +1,6 @@
 # 파이썬 기본 2/실습1
+import time
+
 year = [2011 + i for i in range(8)]
 population = [10249679, 10195318, 10143645, 10103233, 10022181, 9930616, 9857426, 9838892]
 print(year[-3:])
@@ -348,3 +350,87 @@ class ReverseIndexingList(list):
 
 ril = ReverseIndexingList([1, 2, 3, 4, 5])
 print(ril[4])
+
+
+# 함수 2/재귀함수/실습 1
+def jisu(a, n):
+    if n == 0: return 1
+    else:
+        return a * jisu(a, n - 1)
+
+print(jisu(2, 10))
+
+
+# 함수 2/재귀함수/실습 2
+def symmetry_check(s):
+    l = len(s)
+    if l == 1:
+        return True
+    elif l == 2:
+        return s[0] == s[1]
+
+    if symmetry_check(s[1:l-1]):
+        return True
+    else:
+        return False
+
+print(symmetry_check('aabbaa'))
+print(symmetry_check([1, 2, 3, 2, 1]))
+print(symmetry_check((2, 4, 3, 2)))
+
+
+# 함수 2/재귀함수(tail recursion)/실습
+import time
+def fib(ind):
+    if ind == 0:
+        return 0
+    elif ind == 1:
+        return 1
+    else:
+        return fib(ind - 1) + fib(ind - 2)
+
+def fib_tail(ind):
+    return fib_helper(ind, 0, 1)
+
+def fib_helper(ind, bef, aft):
+    if ind == 0:
+        return bef
+    else:
+        return fib_helper(ind - 1, aft, bef + aft)
+
+
+n = 35
+t0 = time.time()
+print(fib(n))
+t1 = time.time()
+print(fib_tail(n))
+t2 = time.time()
+print(t1 - t0)
+print(t2 - t1)
+
+
+# 함수 2/함수를 parameter로 활용하기/실습 1
+def return_last(text):
+    return text.split(' ')[-1]
+
+
+def return_first(text):
+    return text.split(' ')[0]
+
+
+def new_dict(func, p_dict):
+    ndict = {}
+    for k, v in p_dict.items():
+        ndict[func(k)] = v
+    return ndict
+
+
+data = {
+    'John Legend': 'singer',
+    'Taylor Swift': 'singer',
+    'Ashton Kutcher': 'actor',
+    'Ryan Gosling': 'actor'
+}
+print(new_dict(return_first, data))
+print(new_dict(return_last, data))
+

@@ -304,3 +304,27 @@ sub_obj.print_itself()
 # len -> len
 # str -> str
 # ex) __getitem__ 로 오버로딩
+
+# map function +
+x = [1, 2, 3, 4, 5]
+y = [2, 3, 4, 5, 6]
+print('x^y', list(map(pow, x, y)))
+print(pow(2, 10))
+
+# zip(*)
+x = [1, 2, 3, 4]
+y = [4, 5, 6]
+z = [7, 8, 9, 10, 11]
+zip_xyz = list(zip(x, y, z))
+print(zip_xyz)
+a, b, c = zip(*zip_xyz)
+print(*zip_xyz)
+print(a, b, c)
+
+# reverse sort
+x = [4, 2, 7, 3, 8, 10]
+print(sorted(x, reverse=True))
+
+# isinstance
+print(isinstance([1, 2, 3], list))
+

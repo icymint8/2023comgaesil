@@ -399,7 +399,7 @@ def fib_helper(ind, bef, aft):
         return fib_helper(ind - 1, aft, bef + aft)
 
 
-n = 35
+n = 60
 t0 = time.time()
 print(fib(n))
 t1 = time.time()
@@ -409,7 +409,7 @@ print(t1 - t0)
 print(t2 - t1)
 
 
-# 함수 2/함수를 parameter로 활용하기/실습 1
+# 함수 2/함수를 parameter로 활용하기/실습
 def return_last(text):
     return text.split(' ')[-1]
 

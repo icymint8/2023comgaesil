@@ -434,3 +434,14 @@ data = {
 print(new_dict(return_first, data))
 print(new_dict(return_last, data))
 
+
+# 함수 2/customizing function with closure/실습
+def make_multiplier(arg1):
+    def multiply(arg2):
+        return arg1 * arg2
+
+    return multiply
+
+
+mul_4 = make_multiplier(4)
+print(mul_4(5))

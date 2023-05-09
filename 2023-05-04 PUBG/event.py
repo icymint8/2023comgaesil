@@ -16,5 +16,5 @@ def battle(player_list):
         if i != winner:
             player_list[i].health = 0
 
-    print(f'Battle occured: Players {[p.id for p in player_list]} at {player_list[0].location}')
+    print(f'Battle occurred: Players {[p.id for p in player_list]} at {player_list[0].location}')
     print(f'Player {player_list[winner].id} won')

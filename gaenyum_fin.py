@@ -136,3 +136,122 @@ from과 함께 import를 사용한 케이스
     • (여러 계층의 패키지 내부의 모듈) from 패키지명.패키지명.모듈명 import 식별자
 '''
 # https://wikidocs.net/1418 참고하면 도움이 될 것이다.
+
+# 파일 입출력(w)
+f = open('writing_test.txt', 'w')
+# or f = open('C:\\컴개실(004) 김량현\\2023comgaesil\\new_file.txt', w)
+# or f = open(r'C:\컴개실(004) 김량현\2023comgaesil\new_file.txt', w)
+# r string은 문자를 문자 그대로(escape code가 아닌) 인식하게 만들어준다.
+f.write('First line\n')
+f.write('Second line\n')
+f.write('Third line\n')
+f.close()
+# writing_test.txt에서
+'''
+First line
+Second line
+Third line
+
+'''
+
+# 파일 입출력(a)
+f = open('writing_test.txt', 'a')
+for i in range(10):
+    f.write(f'newly added line ({i})\n')
+f.close()
+# writing_test.txt에서
+'''
+newly added line (0)
+...
+newly added line (9)
+'''
+
+# 파일 입출력(r)
+f = open(r'C:\컴개실(004) 김량현\2023comgaesil\writing_test.txt', 'r')
+for i in range(3):
+    line = f.readline()
+    print(line.rstrip()) # \n 지우기
+f.close()
+
+# 파일 읽는 방법들
+f = open('writing_test.txt')
+while True:
+    line = f.readline()
+    if not line: # 끝에 도달하면 line == ''가 됨
+        break
+    print(line.rstrip())
+
+f = open('writing_test.txt')
+for line in f:
+    print(line.rstrip())
+
+f = open('writing_test.txt')
+for line in f.readlines():
+    print(line.rstrip())
+
+f = open('writing_test.txt')
+print(f.read())
+f.close()
+'''
+First line
+...
+newly added line(9)
+x3
+'''
+
+# 파일 존재여부 확인
+import os.path
+path = 'writing_test.txt'
+print(os.path.isfile(path))
+'''
+True
+'''
+
+# 에러의 종류
+print(100)
+# print('d) <- syntax error(구문오류). 프로그램 실행 자체가 불가
+# print(dsf) < exception(예외). 윗줄까지 실행된 이후 뻗음.
+'''
+그냥 에러
+(1, 2줄)
+
+100
+에러
+(1, 3줄)
+'''
+
+# 예외 처리 예시 - if문
+n = input('정수 입력')
+if n.isdigit():
+    n = int(n)
+    print(n, type(n))
+else:
+    print('정수 아님')
+
+'''
+입력: 10
+출력: 10 <class 'int'>
+
+입력: ㅎ
+출력: 정수 아님
+'''
+
+# 예외 처리 예시 - try-except 구문
+try:
+    n = int(input())
+    print(10 / n)
+except ZeroDivisionError:
+    print('cannot divide by 0')
+except ValueError:
+    print('write integer')
+
+'''
+입력: 4
+출력: 2.5
+
+입력: 0
+출력: cannot divide by 0
+
+입력: ㅇㅇ
+출력: write integer
+'''

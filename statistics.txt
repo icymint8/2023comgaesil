@@ -1,0 +1,5 @@
+statics of i
+sum: 2903
+avg: 5.806
+max: 16
+min: 0

@@ -16,4 +16,3 @@ class Map(object):
             really = True if abs(self.target_location - player.location) <= get_safe_distance(time) else False
             if not really:
                 player.health -= 10
-

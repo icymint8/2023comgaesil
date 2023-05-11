@@ -95,7 +95,7 @@ __main__
 # import한 모듈 내에서 위 구문이 실행될 경우 그 함수의 파일명으로 나오게 됨
 
 # etl에서 my_program 파일을 받았다고 가정 후 진행
-# 파일을 받고 자신이 코딩하는 파일 안에 압축해제 하세요
+# 파일을 받고 자신이 코딩하는 디렉토리 안에 압축해제 하세요
 
 # __init__.py
 # 패키지 import시 자동으로 실행
@@ -112,29 +112,6 @@ import simulation
 if __name__ == '__main__':
     simulation.simulator.preprocess()
     simulation.result_handler.result_parsing('data')
-
-# 정리
-'''
-접근 방법
-• 최상단 계층의 패키지, 모듈은 dot (.) 없이 접근 가능
-• 패키지 내부의 모듈은 패키지명.모듈명으로 접근 가능
-
-from 없이 import만 사용한 케이스
-• import 뒤에는 모듈명이 있어야함 (패키지명이 올 경우, __init__.py를 실행하고 모듈로 취급됨)
-• 올바른 예시
-    • (최상단 계층의 모듈) import 모듈명
-    • (패키지 내부의 모듈) import 패키지명.모듈명
-    • (여러 계층의 패키지 내부의 모듈) import 패키지명.패키지명.모듈명
-    
-from과 함께 import를 사용한 케이스
-• import 뒤에는 모듈명 혹은 모듈 내 선언된 식별자가 dot (.) 없이 단독으로 와야함
-• import 뒤에 등장하는 모듈명 혹은 식별자의 접근 경로는 from 뒤에 모두 표시되어야 함
-• 올바른 예시
-    • (최상단 계층의 모듈) from 모듈명 import 식별자
-    • (패키지 내부의 모듈) from 패키지명 import 모듈명
-    • (패키지 내부의 모듈) from 패키지명.모듈명 import 식별자
-    • (여러 계층의 패키지 내부의 모듈) from 패키지명.패키지명.모듈명 import 식별자
-'''
 # https://wikidocs.net/1418 참고하면 도움이 될 것이다.
 
 # 파일 입출력(w)
@@ -170,14 +147,19 @@ newly added line (9)
 f = open(r'C:\컴개실(004) 김량현\2023comgaesil\writing_test.txt', 'r')
 for i in range(3):
     line = f.readline()
-    print(line.rstrip()) # \n 지우기
+    print(line.rstrip())  # \n 지우기
 f.close()
+'''
+First line
+Second line
+Third line
+'''
 
 # 파일 읽는 방법들
 f = open('writing_test.txt')
 while True:
     line = f.readline()
-    if not line: # 끝에 도달하면 line == ''가 됨
+    if not line:  # 끝에 도달하면 line == ''가 됨
         break
     print(line.rstrip())
 
@@ -227,7 +209,6 @@ if n.isdigit():
     print(n, type(n))
 else:
     print('정수 아님')
-
 '''
 입력: 10
 출력: 10 <class 'int'>
@@ -242,16 +223,186 @@ try:
     print(10 / n)
 except ZeroDivisionError:
     print('cannot divide by 0')
-except ValueError:
-    print('write integer')
-
+except:
+    print('something wrong')
+else:
+    print('no exceptions')
+finally:
+    print('program finished')
 '''
 입력: 4
-출력: 2.5
+출력:
+2.5
+no exceptions
+program finished
 
 입력: 0
 출력: cannot divide by 0
+program finished
 
 입력: ㅇㅇ
 출력: write integer
+program finished
+'''
+
+# exception 만들기
+num = int(input('integer smaller than 5:'))
+if num >= 5:
+    raise Exception('not smaller than 5')
+print(5 / num)
+'''
+in: 4
+out: 1.25
+
+in: 6
+out: error
+Traceback (most recent call last):
+  File "C:\Program Files\JetBrains\PyCharm Community Edition 2022.3.2\plugins\python-ce\helpers\pydev\pydevconsole.py", line 364, in runcode
+    coro = func()
+  File "<input>", line 4, in <module>
+Exception: not smaller than 5
+'''
+
+# raising에 대한 자세한 설명은 자료 참고
+# tracking raising
+def f1():  # line 1
+    print('f1 called')
+    try:
+        f2()
+    except Exception:
+        print('exception handled at f1')
+
+def f2():  # line 8
+    print('f2 called')
+    f3()
+
+def f3():  # line 12
+    print('f3 called')
+    try:
+        raise Exception('throw an Exception object at f3')
+    except Exception:
+        print('exception handled at f3')
+    finally:
+        raise Exception('throw new exception at f3')
+
+f1()  # line 21
+'''
+f1 called
+f2 called
+f3 called
+exception handled at f3
+exception handled at f1
+'''
+
+def rraaiissee():
+    try:
+        raise Exception('1')
+    except Exception as e:
+        print(f'{e} exception made')
+    finally:
+        raise Exception('2')
+
+try:
+    rraaiissee()
+except Exception as e:
+    print(f'{e} exception made in rraaiissee')
+'''
+1 exception made
+2 exception made in rraaiissee
+'''
+
+def rraaiissee():
+    try:
+        raise Exception('1')
+    except Exception as e:
+        print(f'{e} exception made')
+    finally:
+        print('done')
+
+try:
+    rraaiissee()
+except Exception as e:
+    print(f'{e} exception made in rraaiissee')
+'''
+1 exception made
+done
+'''
+# 이건 진짜 헷갈린다
+# 나도 잘 모름 ㅅㄱ
+
+# 바람직한 예외처리 방법
+def division(a, b):  # line 1
+    if not isinstance(a, (int, float)) or not isinstance(b, (int, float)):
+        raise TypeError('not number')
+
+    if b == 0:
+        raise ZeroDivisionError('cannot divide by 0')  # 에러 던지고
+
+    return a / b
+
+def with_user_input(num_trial):  # line 10
+    if not isinstance(num_trial, int):
+        raise TypeError('not int')
+
+    for i in range(num_trial):
+        try:
+            n1 = eval(input('n1:'))
+            n2 = eval(input('n2:'))
+            result = division(n1, n2)
+            print(result)
+            break
+        except Exception as ex:  # 그 함수를 호출하는 곳에서 받기
+            print(ex)
+            print('try again')
+
+try:
+    with_user_input(3)
+    with_user_input('1')
+except Exception as ex:
+    print(ex)
+    print('wrong input')
+'''
+n1:>? 4  # 입력
+n2:>? 0  # 얘도
+cannot divide by 0
+try again
+n1:>? 'apple'
+n2:>? 2
+not number
+try again
+n1:>? 3
+n2:>? 2
+1.5
+not int
+wrong input
+'''
+
+# custom exception
+class InvalidLength(Exception):
+    def __init__(self, length):
+        super().__init__()
+        self.length = length
+
+class Rectangle(object):
+    def __init__(self, a, b):
+        if a <= 0:
+            raise InvalidLength(a)
+        elif b <= 0:
+            raise InvalidLength(b)
+        self.a = a
+        self.b = b
+
+    def get_area(self):
+        return self.a * self.b
+
+try:
+    r1 = Rectangle(4, 5)
+    print(f'area(r1) = {r1.get_area()}')
+    r2 = Rectangle(-1, -3)
+    print(f'area(r2) = {r2.get_area()}')
+except InvalidLength as e:
+    print(f'length {e.length} is invalid')
+'''
+area(r1) = 20
+length -1 is invalid
 '''

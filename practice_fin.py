@@ -40,3 +40,67 @@ file_path_to_write = 'statistics.txt'
 
 main(file_path_to_read, file_path_to_write, letter_to_check)
 print("file is saved at: %s" % file_path_to_write)
+
+
+# 입출력 및 예외처리/실습 1(개념 파일에 있음)
+class InvalidLength(Exception):
+    def __init__(self, length):
+        super().__init__()
+        self.length = length
+
+
+class Rectangle(object):
+    def __init__(self, a, b):
+        if a <= 0:
+            raise InvalidLength(a)
+        elif b <= 0:
+            raise InvalidLength(b)
+        self.a = a
+        self.b = b
+
+    def get_area(self):
+        return self.a * self.b
+
+
+try:
+    r1 = Rectangle(4, 5)
+    print(f'area(r1) = {r1.get_area()}')
+    r2 = Rectangle(-1, -3)
+    print(f'area(r2) = {r2.get_area()}')
+except InvalidLength as e:
+    print(f'length {e.length} is invalid')
+
+
+# 입출력 및 예외처리/실습 2
+class ZeroDivideZeroError(ZeroDivisionError):
+    def __init__(self):
+        super().__init__()
+
+
+def int_division(n1, n2):
+    if not isinstance(n1, int) or not isinstance(n2, int):
+        raise TypeError
+    elif n1 == 0 and n2 == 0:
+        raise ZeroDivideZeroError
+    elif n2 == 0:
+        raise ZeroDivisionError
+
+    return n1 // n2
+
+
+try:
+    print(int_division(8, 3))
+    # print(int_division('a', 1))  # TypeError
+    # print(int_division(0, 0))  # ZeroDivideZeroError
+    # print(int_division(5, 0))  # ZeroDivisionError
+    # print(int_division(1, 2, 3))  # TypeError
+except TypeError:
+    print('TypeError')
+except ZeroDivideZeroError:
+    print('cannot divide 0 by 0')
+except ZeroDivisionError:
+    print('cannot divide by 0')
+except:
+    print('exception occured')
+else:
+    print('no exceptions')

@@ -1,1 +1,1 @@
-print(range(5)[2:5][0])
+print(format('  3333.33'))

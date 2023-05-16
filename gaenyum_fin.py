@@ -406,3 +406,91 @@ except InvalidLength as e:
 area(r1) = 20
 length -1 is invalid
 '''
+
+# linear search
+# 과거에 len 많이 썼다가 시간초과 난 경험이 있어서...
+def seq_search1(a, key):
+    for i in a:
+        if i == key:
+            return a.index(i)
+    return -1
+
+# 오리지날
+def seq_search2(a, key):
+    for i in range(len(a)):
+        if a[i] == key:
+            return i
+    return -1
+
+# copy 안해도 되지 않을까?
+def senti_seq_search1(a, key):
+    a.append(key)
+    i = 0
+    while True:
+        if a[i] == key:
+            break
+        i += 1
+    a.pop(-1)
+
+    return -1 if i == len(a) else i
+
+# 오리지날
+import copy
+def senti_seq_search2(seq, key):
+    a = copy.deepcopy(seq)
+    a.append(key)
+    i = 0
+    while True:
+        if a[i] == key:
+            break
+        i += 1
+
+    return -1 if i == len(seq) else i
+
+def binary_search(a, key):
+    left = 0
+    right = len(a) - 1
+    while True:
+        middle = (left + right) // 2
+        if a[middle] == key:
+            return middle
+        elif key < a[middle]:
+            right = middle - 1
+        elif a[middle] < key:
+            left = middle + 1
+        if left > right:
+            break
+
+    return -1
+
+import time
+def count_time(search, L, v):
+    t1 = time.perf_counter()
+    search(L, v)
+    t2 = time.perf_counter()
+    return (t2 - t1) * 1000
+
+def print_time(v, L):
+    t1 = time.perf_counter()
+    L.index(v)
+    t2 = time.perf_counter()
+    index_time = (t2 - t1) * 1000
+    seq1_time = count_time(seq_search1, L, v)
+    seq2_time = count_time(seq_search2, L, v)
+    senti1_time = count_time(senti_seq_search1, L, v)
+    senti2_time = count_time(senti_seq_search2, L, v)
+    bin_time = count_time(binary_search, L, v)
+    print(
+        f'{v:10d} {bin_time:.4f} {index_time:.4f} {seq1_time:.4f} {seq2_time:.4f} {senti1_time:.4f} {senti2_time:.4f}'
+    )
+
+L = list(range(10000000))
+print_time(10, L)
+print_time(5000000, L)
+print_time(9999999, L)
+# senti2 왤케 오래걸리지? deepcopy 때문인가
+'''
+        10 0.0180 0.0115 0.0065 0.0222 17.5222 2943.9079
+   5000000 0.0119 43.9525 130.1141 165.9049 219.1126 3187.7449
+   9999999 0.0185 87.3036 262.6453 328.5049 436.8288 3392.0284
+'''

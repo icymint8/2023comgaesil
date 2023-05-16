@@ -104,3 +104,31 @@ except:
     print('exception occured')
 else:
     print('no exceptions')
+
+
+# 알고리즘/실습/원하는 정수 찾기
+n = int(input())
+a = sorted(list(map(int, input().split())))
+m = input()
+f = list(map(int, input().split()))
+
+# binary search는 안보고 칠 수 있도록 만드는 것이 좋을 것
+def binary_search(a, key):
+    left = 0
+    right = len(a) - 1
+    middle = (left + right) // 2
+    flag = True
+
+    while a[middle] != key:
+        if key < a[middle]:
+            right = middle - 1
+        elif a[middle] < key:
+            left = middle + 1
+        if left > right:
+            flag = False
+            break
+
+    return middle if flag else -1
+
+for i in f:
+    print(f'{1 if binary_search(a, i) != -1 else 0}')

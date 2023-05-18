@@ -1,1 +1,1 @@
-print(format('  3333.33'))
+print(str([1, 2, 3, 4]))

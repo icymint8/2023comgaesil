@@ -106,7 +106,7 @@ else:
     print('no exceptions')
 
 
-# 알고리즘/실습/원하는 정수 찾기
+# 알고리즘 part1/실습/원하는 정수 찾기
 n = int(input())
 a = sorted(list(map(int, input().split())))
 m = input()
@@ -132,3 +132,10 @@ def binary_search(a, key):
 
 for i in f:
     print(f'{1 if binary_search(a, i) != -1 else 0}')
+
+# 알고리즘 part 2/실습 1
+inp_list = input().split(', ')
+l_max = max(map(len, inp_list))
+to_sort = list(zip(inp_list, map(lambda x: x + x[0] * (l_max - len(x)), inp_list)))
+to_sort.sort(key=lambda x: x[1])
+print(int(''.join([inp_list[-1 - i] for i in range(len(inp_list))])))

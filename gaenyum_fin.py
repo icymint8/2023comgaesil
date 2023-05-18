@@ -481,7 +481,7 @@ def print_time(v, L):
     senti2_time = count_time(senti_seq_search2, L, v)
     bin_time = count_time(binary_search, L, v)
     print(
-        f'{v:10d} {bin_time:.4f} {index_time:.4f} {seq1_time:.4f} {seq2_time:.4f} {senti1_time:.4f} {senti2_time:.4f}'
+        f'{v:<10d} {bin_time:5.4f} {index_time:5.4f} {seq1_time:5.4f} {seq2_time:5.4f} {senti1_time:5.4f} {senti2_time:5.4f}'
     )
 
 L = list(range(10000000))
@@ -493,4 +493,112 @@ print_time(9999999, L)
         10 0.0180 0.0115 0.0065 0.0222 17.5222 2943.9079
    5000000 0.0119 43.9525 130.1141 165.9049 219.1126 3187.7449
    9999999 0.0185 87.3036 262.6453 328.5049 436.8288 3392.0284
+'''
+
+# 정렬 알고리즘들
+# 선택 정렬
+def selection_sort(a):
+    l = len(a)
+    for i in range(l - 1):
+        ind_m = i
+        for j in range(i + 1, l):
+            if a[ind_m] > a[j]:
+                ind_m = j
+        a[i], a[ind_m] = a[ind_m], a[i]
+
+# 삽입 정렬
+def insertion_sort(a):
+    l = len(a)
+    for i in range(1, l):
+        j = i
+        tmp = a[i]
+        while j > 0 and a[j - 1] > tmp:
+            a[j] = a[j - 1]
+            j -= 1
+        a[j] = tmp
+
+# 퀵 정렬
+def qsort(a, left, right):
+    pl = left
+    pr = right
+    x = a[(left + right) // 2]
+    while pl <= pr:
+        while a[pl] < x: pl += 1
+        while a[pr] > x: pr -= 1
+        if pl <= pr:
+            a[pl], a[pr] = a[pr], a[pl]
+            pl += 1
+            pr -= 1
+    if left < pr: qsort(a, left, pr)
+    if pl < right: qsort(a, pl, right)
+
+def quick_sort(a):
+    qsort(a, 0, len(a) - 1)
+
+# 병합 정렬
+def merge_sort(a):
+    def _merge_sort(a, left, right):
+        if left < right:
+            center = (left + right) // 2
+            _merge_sort(a, left, center)
+            _merge_sort(a, center + 1, right)
+
+            p = j = 0
+            i = k = left
+            while i <= center:
+                buff[p] = a[i]
+                p += 1
+                i += 1
+
+            while i < right and j < p:
+                if buff[j] <= a[i]:
+                    a[k] = buff[j]
+                    j += 1
+                else:
+                    a[k] = a[i]
+                    i += 1
+                k += 1
+
+            while j < p:
+                a[k] = buff[j]
+                k += 1
+                j += 1
+    n = len(a)
+    buff = [None] * n
+    _merge_sort(a, 0, n - 1)
+    del buff
+
+# 시간 재는 함수
+import time
+def sort_time(sort, a):
+    t1 = time.perf_counter()
+    sort(a)
+    t2 = time.perf_counter()
+    return (t2 - t1) * 1000
+
+import random
+n = int(input('배열의 원소 수'))
+a = random.sample(range(n), n)
+print(f't = {sort_time(sorted, a):.6f} milliseconds')
+print(a)
+'''
+# selection sort
+input: 10000
+t = 2041.051500 milliseconds
+
+# insertion sort
+input: 10000
+t = 3162.341600 milliseconds
+
+# quick sort
+input: 10000
+t = 12.714700 milliseconds
+
+# merge sort
+input: 10000
+t = 21.838400 milliseconds
+
+# built-in sort(sorted)
+input: 10000
+t = 0.999400 milliseconds
 '''

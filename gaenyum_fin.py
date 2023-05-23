@@ -602,3 +602,129 @@ t = 21.838400 milliseconds
 input: 10000
 t = 0.999400 milliseconds
 '''
+
+# stack
+class Stack(object):
+    def __init__(self):
+        self.items = []
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        try:
+            return self.items.pop()
+        except IndexError:
+            print('stack is empty')
+
+    def peek(self):
+        try:
+            return self.items[-1]
+        except IndexError:
+            print('stack is empty')
+
+    def empty(self):
+        return not bool(self.items)
+
+    def size(self):
+        return len(self.items)
+
+    def __repr__(self):
+        return repr(self.items)
+
+stack = Stack()
+stack.push(1)
+print(stack.pop())
+print(stack.pop())
+print(stack.size())
+for i in range(0, 10, 2):
+    stack.push(i)
+print(stack)
+'''
+1
+stack is empty
+None
+0
+[0, 2, 4, 6, 8]
+'''
+
+# queue
+class Queue(object):
+    def __init__(self):
+        self.items = []
+
+    def enqueue(self, item):
+        self.items.append(item)
+
+    def dequeue(self):
+        try:
+            return self.items.pop(0)
+        except IndexError:
+            print('queue is empty')
+
+    def empty(self):
+        return not bool(self.items)
+
+    def size(self):
+        return len(self.items)
+
+    def peek(self):
+        try:
+            return self.items[0]
+        except IndexError:
+            print('queue is empty')
+
+    def __repr__(self):
+        return repr(self.items)
+
+# 실습은 알아서
+# collections.deque와 사용법이 동일
+
+# dfs
+def dfs(graph, v, visited):
+    visited[v] = True
+    print(v, end=' ')
+    for i in graph[v]:
+        if not visited[i]:
+            dfs(graph, i, visited)
+
+graph = [
+    [],
+    [2, 3, 8],
+    [1, 7],
+    [1, 4, 5],
+    [3, 5],
+    [3, 4],
+    [7],
+    [2, 6, 8],
+    [1, 7]
+]
+visited = [False] * 9
+dfs(graph, 1, visited)
+
+# bfs
+from collections import deque
+def bfs(graph, start, visited):
+    queue = deque([start])
+    visited[start] = True
+    while queue:
+        v = queue.popleft()
+        print(v, end=' ')
+        for i in graph[v]:
+            if not visited[i]:
+                queue.append(i)
+                visited[i] = True
+
+graph = [
+    [],
+    [2, 3, 8],
+    [1, 7],
+    [1, 4, 5],
+    [3, 5],
+    [3, 4],
+    [7],
+    [2, 6, 8],
+    [1, 7]
+]
+visited = [False] * 9
+bfs(graph, 1, visited)

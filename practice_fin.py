@@ -134,8 +134,54 @@ for i in f:
     print(f'{1 if binary_search(a, i) != -1 else 0}')
 
 # 알고리즘 part 2/실습 1
+'''
+검증되지 않은 코드
 inp_list = input().split(', ')
 l_max = max(map(len, inp_list))
 to_sort = list(zip(inp_list, map(lambda x: x + x[0] * (l_max - len(x)), inp_list)))
 to_sort.sort(key=lambda x: x[1])
-print(int(''.join([inp_list[-1 - i] for i in range(len(inp_list))])))
+print(int(''.join([to_sort[-1 - i][0] for i in range(len(inp_list))])))
+'''
+def to_swap(n1, n2):
+    return str(n1) + str(n2) < str(n2) + str(n1)
+
+def largest_number(nums):
+    i = 1
+    while i < len(nums):
+        j = i
+        while j > 0 and to_swap(nums[j - 1], nums[j]):
+            nums[j], nums[j - 1] = nums[j - 1], nums[j]
+            j -= 1
+        i += 1
+    return int(''.join(map(str, nums)))
+
+print(largest_number([10, 2]))
+print(largest_number([3, 30, 34, 5, 9]))
+
+# 알고리즘 part 2/실습 2
+inp_list = eval(input())
+inp_list.sort(key=lambda x: x[0])
+flag = True
+while flag:
+    flag = False
+    for i in range(len(inp_list) - 1):
+        if inp_list[i][1] >= inp_list[i + 1][0]:
+            flag = True
+            if inp_list[i][1] >= inp_list[i + 1][1]:
+                inp_list.pop(i + 1)
+            else:
+                inp_list[i] = [inp_list[i][0], inp_list[i + 1][1]]
+            break
+print(inp_list)
+
+# 알고리즘 part 3/실습 1
+# 미완성
+def dfs(graph, start, visited):
+    visited[start[0]][start[1]] = True
+
+
+N, M = map(int, input().split())
+ice_map = [[]] * N
+for i in range(N):
+    ice_map[i] = list(map(int, list(input())))
+visited = [[False] * M] * N

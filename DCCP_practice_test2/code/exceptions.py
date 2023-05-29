@@ -1,22 +1,16 @@
 # NoProductException
-###############################
-
-pass
-
-###############################
+class NoProductException(Exception):
+    def __init__(self):
+        super().__init__()
 
 
 # OutOfRackException
-###############################
-
-pass
-
-###############################
+class OutOfRackException(Exception):
+    def __init__(self):
+        super().__init__()
 
 
 # NoSpaceException
-###############################
-
-pass
-
-###############################
+class NoSpaceException(Exception):
+    def __init__(self):
+        super().__init__()

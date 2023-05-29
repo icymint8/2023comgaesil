@@ -1,1 +1,1 @@
-print(list(map(int, list(input()))))
+print((1, 2))

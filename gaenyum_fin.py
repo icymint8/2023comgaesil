@@ -678,7 +678,7 @@ class Queue(object):
         return repr(self.items)
 
 # 실습은 알아서
-# collections.deque와 사용법이 동일
+# collections.deque와 사용법이 동일(이름은 좀 다름)
 
 # dfs
 def dfs(graph, v, visited):
@@ -701,6 +701,9 @@ graph = [
 ]
 visited = [False] * 9
 dfs(graph, 1, visited)
+'''
+1 2 7 6 8 3 4 5 
+'''
 
 # bfs
 from collections import deque
@@ -728,3 +731,6 @@ graph = [
 ]
 visited = [False] * 9
 bfs(graph, 1, visited)
+'''
+1 2 3 8 7 4 5 6 
+'''

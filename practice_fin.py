@@ -142,6 +142,7 @@ to_sort = list(zip(inp_list, map(lambda x: x + x[0] * (l_max - len(x)), inp_list
 to_sort.sort(key=lambda x: x[1])
 print(int(''.join([to_sort[-1 - i][0] for i in range(len(inp_list))])))
 '''
+# 교수님 풀이
 def to_swap(n1, n2):
     return str(n1) + str(n2) < str(n2) + str(n1)
 
@@ -175,13 +176,62 @@ while flag:
 print(inp_list)
 
 # 알고리즘 part 3/실습 1
-# 미완성
-def dfs(graph, start, visited):
-    visited[start[0]][start[1]] = True
-
-
+# 교수님 풀이와 같음
 N, M = map(int, input().split())
-ice_map = [[]] * N
+graph = []
 for i in range(N):
-    ice_map[i] = list(map(int, list(input())))
-visited = [[False] * M] * N
+    graph.append(list(map(int, input())))
+
+def dfs(x, y):
+    if x <= -1 or x >= N or y <= -1 or y >= M:
+        return False
+    if graph[x][y] == 0:
+        graph[x][y] = 1
+        dfs(x - 1, y)
+        dfs(x + 1, y)
+        dfs(x, y - 1)
+        dfs(x, y + 1)
+        return True
+    return False
+
+result = 0
+for i in range(N):
+    for j in range(M):
+        if dfs(i, j):
+            result += 1
+print(result)
+
+# 알고리즘 part 3/실습 2
+# 교수님 풀이와 같음
+from collections import deque
+
+n, m = map(int, input().split())
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+graph = [[0] * m for _ in range(n)]
+visited = [[False] * m for _ in range(n)]
+
+for i in range(n):
+    numbers = list(map(int, input()))
+    for j in range(m):
+        graph[i][j] = numbers[j]
+
+def bfs(x, y):
+    queue = deque()
+    queue.append((x, y))
+    visited[x][y] = True
+
+    while queue:
+        xx, yy = queue.popleft()
+        for i in range(4):
+            nx = xx + dx[i]
+            ny = yy + dy[i]
+
+            if 0 <= nx < n and 0 <= ny < m:
+                if graph[nx][ny] != 0 and not visited[nx][ny]:
+                    visited[nx][ny] = True
+                    graph[nx][ny] = graph[xx][yy] + 1
+                    queue.append((nx, ny))
+
+bfs(0, 0)
+print(graph[n - 1][m - 1])

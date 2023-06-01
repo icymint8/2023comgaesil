@@ -235,3 +235,51 @@ def bfs(x, y):
 
 bfs(0, 0)
 print(graph[n - 1][m - 1])
+
+# 파이썬 패키지 1/실습 1
+import numpy as np
+a = np.array([
+    [1, 4, 2, 3, 4, 5],
+    [2, 5, 6, 5, 2, 1]
+])
+b = np.arange(1, 7)
+c = np.array([3.5, 2.4])
+d = 2.2 * np.ones((2, 6))
+tmp = np.dot(c, 3 * a - d)
+print(np.dot(tmp, b))
+
+# 파이썬 패키지 1/실습 2
+import numpy as np
+a = np.array([
+    range(11, 17),
+    range(17, 23),
+    range(23, 29),
+    range(29, 35)
+])
+print(a[:2, 3:])
+print(a[::2])
+print(a[:, -2])
+print(a[:, 1::3])
+print(a[::2, 1::2])
+
+# 파이썬 패키지 1/실습 3
+import numpy as np
+a = np.array([
+    [2, 4],
+    [0, 1]
+])
+b = np.ones((2, 2))
+b[0, 0] = np.log(-1)
+c = b / a
+c[np.isnan(c) | np.isinf(c)] = -1
+print(c)
+
+# 파이썬 패키지 1/broadcasting 연습
+# 계산기
+import numpy as np
+def broad_calc(args1, args2):
+    print(np.arange(sum(args1)).reshape((args1)) + np.arange(sum(args2)).reshape(args2))
+
+a1 = tuple(map(int, input().split()))
+a2 = tuple(map(int, input().split()))
+broad_calc(a1, a2)

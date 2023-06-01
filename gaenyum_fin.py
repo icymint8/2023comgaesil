@@ -734,3 +734,220 @@ bfs(graph, 1, visited)
 '''
 1 2 3 8 7 4 5 6 
 '''
+
+# numpy 기초
+# 사실 파이썬 라이브러리 다룰 때는 인터넷 창 켜놓고 설명서 읽으면서 하는 것을 추천합니다
+import numpy as np
+
+a = np.array([
+    [1, 2],
+    [3, 4],
+    [5, 6]
+])
+print(a)
+print(a.dtype)
+a = a.astype('float64')
+print(a)
+print(a.ndim)
+print(a.shape)
+print(a.size)
+'''
+[[1 2]
+ [3 4]
+ [5 6]]
+int32
+[[1. 2.]
+ [3. 4.]
+ [5. 6.]]
+2
+(3, 2)
+6
+'''
+
+# ndarray 생성
+import numpy as np
+print(np.zeros((2, 3)))
+print(np.ones_like(np.ones((4, 4))))
+print(np.identity(3))
+print(np.arange(0, 1, 0.1))
+print(np.linspace(1.4, 20, 5))
+'''
+[[0. 0. 0.]
+ [0. 0. 0.]]
+[[1. 1. 1. 1.]
+ [1. 1. 1. 1.]
+ [1. 1. 1. 1.]
+ [1. 1. 1. 1.]]
+[[1. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+[0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
+[ 1.4   6.05 10.7  15.35 20.  ]
+'''
+
+# ndarray 연산
+import numpy as np
+a = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+print(a * a)
+print(1 + a)
+print(a ** 2)
+b = np.array([
+    [0, 1],
+    [1, 0]
+])
+print(np.dot(b, a))
+print(b.dot(a))
+print(b @ a)
+c = a
+a = a ** 2
+print(c)
+d = a
+a += 1
+print(d)
+'''
+[[ 1  4  9]
+ [16 25 36]]
+[[2 3 4]
+ [5 6 7]]
+[[ 1  4  9]
+ [16 25 36]]
+[[4 5 6]
+ [1 2 3]]
+[[4 5 6]
+ [1 2 3]]
+[[4 5 6]
+ [1 2 3]]
+[[1 2 3]
+ [4 5 6]]
+[[ 2  5 10]
+ [17 26 37]]
+'''
+
+# indexing, slicing
+import numpy as np
+a = np.arange(5)
+a[2:] = -1
+print(a)
+b = np.array([
+    [1, 3, 5, 7],
+    [2, 4, 6, 8],
+    [3, 6, 9, 12]
+])
+print(b[0])
+print(b[1:, 3:])
+'''
+[ 0  1 -1 -1 -1]
+[1 3 5 7]
+[[ 8]
+ [12]]
+'''
+
+
+# copy
+import numpy as np
+a = np.array([
+    [1, 3, 5, 7],
+    [2, 4, 6, 8],
+    [3, 6, 9, 12]
+])
+b = a
+print(id(a))
+print(id(b))
+c = a[::2, 1]
+c[0] = -100
+print(a)
+d = a[0]
+d[1] = -200
+print(a)
+e = a.copy()
+e[2, 2] = -300
+print(a)
+'''
+2072674170320
+2072674170320
+[[   1 -100    5    7]
+ [   2    4    6    8]
+ [   3    6    9   12]]
+[[   1 -200    5    7]
+ [   2    4    6    8]
+ [   3    6    9   12]]
+[[   1 -200    5    7]
+ [   2    4    6    8]
+ [   3    6    9   12]]
+'''
+
+# boolean indexing
+import numpy as np
+c = np.arange(1, 7).reshape((2, 3))
+print(c)
+print(c > 2)
+print(c[c > 2])
+print(np.logical_or(c == 1, c > 3))
+'''
+[[1 2 3]
+ [4 5 6]]
+[[False False  True]
+ [ True  True  True]]
+[3 4 5 6]
+[[ True False False]
+ [ True  True  True]]
+'''
+
+# counting entries
+import numpy as np
+x = np.arange(1, 13).reshape((3, 4))
+print(np.count_nonzero(x < 6))
+print(np.sum(x < 6))
+print(x[(x > 2) & (x < 6)]) # and
+print(x[(x < 2) | (x > 6)]) # or
+print(np.sum(x < 6, axis=0)) # column-wise
+print(np.sum(x < 6, axis=1)) # row-wise
+# 행 렬이라서 0이 행이고 1이 열일것 같은데 그렇지 않음.
+print(np.all(x < 6, axis=1))
+'''
+5
+5
+[3 4 5]
+[ 1  7  8  9 10 11 12]
+[2 1 1 1]
+[4 1 0]
+[ True False False]
+'''
+
+# indexing with arrays
+import numpy as np
+a = np.arange(5) ** 2
+i = np.array([2, 2, 0, 3])
+print(a[i])
+j = np.array([
+    [1, 0],
+    [0, 4]
+])
+print(a[j])
+'''
+[4 4 0 9]
+[[ 1  0]
+ [ 0 16]]
+'''
+
+# shape manipulation
+import numpy as np
+a = np.array((1, 2))
+b = np.array((3, 4))
+print(np.concatenate((a, b)))
+a2 = a.reshape([1, 2])
+b2 = b.reshape([1, 2])
+print(np.concatenate((a2, b2), axis=0))
+print(np.concatenate((a2, b2), axis=1))
+c = np.arange(12).reshape((3, 4)).flatten()
+print(c)
+'''
+[1 2 3 4]
+[[1 2]
+ [3 4]]
+[[1 2 3 4]]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+'''

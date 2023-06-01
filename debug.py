@@ -1,1 +1,1 @@
-print()
+print(tuple(map(int, input())))

@@ -738,7 +738,6 @@ bfs(graph, 1, visited)
 # numpy 기초
 # 사실 파이썬 라이브러리 다룰 때는 인터넷 창 켜놓고 설명서 읽으면서 하는 것을 추천합니다
 import numpy as np
-
 a = np.array([
     [1, 2],
     [3, 4],
@@ -771,6 +770,7 @@ print(np.ones_like(np.ones((4, 4))))
 print(np.identity(3))
 print(np.arange(0, 1, 0.1))
 print(np.linspace(1.4, 20, 5))
+print(np.array([[1, 2], [1, 2, 3]], dtype=object).shape)
 '''
 [[0. 0. 0.]
  [0. 0. 0.]]
@@ -783,6 +783,8 @@ print(np.linspace(1.4, 20, 5))
  [0. 0. 1.]]
 [0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
 [ 1.4   6.05 10.7  15.35 20.  ]
+(2,) # 이거 뭐지 나는 되는데
+# ^이거 사람마다 달라서 안 나올듯?
 '''
 
 # ndarray 연산
@@ -951,3 +953,174 @@ print(c)
 [[1 2 3 4]]
 [ 0  1  2  3  4  5  6  7  8  9 10 11]
 '''
+
+# broadcasting
+import numpy as np
+a = np.array([
+    [0] * 3,
+    [1] * 3,
+    [2] * 3,
+    [3] * 3
+])
+b = np.arange(3)
+print(a + b)
+'''
+[[0 1 2]
+ [1 2 3]
+ [2 3 4]
+ [3 4 5]]
+'''
+
+# pandas.Series
+# Series, DataFrame 모두 대문자로 시작해서 대문자로 안 쓰면 자동완성 안 뜸
+# pandas는 잘 다루면 개꿀
+# Jupyter Notebook을 활용하거나 Python 콘솔을 이용해 출력하는 것이 더 보기 좋기는 함
+# Jupyter Notebook 강추. 이쁘게 나온다.
+import pandas as pd
+df = pd.Series(list(range(5)))
+print(df)
+df_d = pd.Series(dict(zip(['a', 'b', 'c'], [1, 2, 3])))
+print(df_d)
+print(df.values)
+print(df.index)
+print(df_d.index)
+print(df_d['b':'c'])
+print(pd.Series(6, index=[1, 2, 3, 4, 5]))
+print(pd.Series({
+    2: 'a',
+    1: 'b',
+    3: 'c'
+}, index=[3, 2, 4]))
+'''
+0    0
+1    1
+2    2
+3    3
+4    4
+dtype: int64
+a    1
+b    2
+c    3
+dtype: int64
+[0 1 2 3 4]
+RangeIndex(start=0, stop=5, step=1)
+Index(['a', 'b', 'c'], dtype='object')
+b    2
+c    3
+dtype: int64
+1    6
+2    6
+3    6
+4    6
+5    6
+dtype: int64
+3      c
+2      a
+4    NaN
+dtype: object
+'''
+
+# pd.DataFrame
+import numpy as np
+import pandas as pd
+dict_a = {
+    'a': 1,
+    'b': 2,
+    'c': 3
+}
+d_a = pd.Series(dict_a)
+dict_b = {
+    'c': 1,
+    'b': 2,
+    'a': 3
+}
+d_b = pd.Series(dict_b)
+df = pd.DataFrame({
+    'd_a': d_a,
+    'd_b': d_b
+})
+print(df)
+print(pd.DataFrame(
+    np.random.rand(3, 2),
+    columns=['f', 'b'],
+    index=['a', 'b', 'c']
+))
+print(pd.DataFrame([
+    {'a': 1, 'b': 2},
+    {'b': 3, 'c': 4}
+]))
+'''
+   d_a  d_b
+a    1    3
+b    2    2
+c    3    1
+          f         b
+a  0.954149  0.980536
+b  0.235323  0.570865
+c  0.634078  0.616069
+     a  b    c
+0  1.0  2  NaN
+1  NaN  3  4.0
+'''
+
+# indexing/slicing
+import numpy as np
+import pandas as pd
+df = pd.DataFrame(
+    np.arange(12).reshape(4, 3),
+    index=[1, 2, 3, 4],
+    columns=['a', 'b', 'c']
+)
+print(df['a'])
+df['d'] = df['a'] + df['b']
+print(df)
+print(df.loc[:2, :'c'])
+print(df.iloc[:2, :3])
+print(df['b'] < 6)
+df.loc[df['b'] < 6, ['b']] = 6
+print(df)
+'''
+1    0
+2    3
+3    6
+4    9
+Name: a, dtype: int32
+   a   b   c   d
+1  0   1   2   1
+2  3   4   5   7
+3  6   7   8  13
+4  9  10  11  19
+   a  b  c
+1  0  1  2
+2  3  4  5
+   a  b  c
+1  0  1  2
+2  3  4  5
+1     True
+2     True
+3    False
+4    False
+   a   b   c   d
+1  0   6   2   1
+2  3   6   5   7
+3  6   7   8  13
+4  9  10  11  19
+'''
+# 예능
+import numpy as np
+import matplotlib.pyplot as plt
+rng = np.random.default_rng()
+with plt.xkcd():
+    x = rng.standard_normal(10)
+    y = rng.standard_normal(10)
+    plt.scatter(x, y)
+    plt.show()
+
+# 이외의 기능들은 쓰다 보면서 document 찾다 보면 나옴
+# describe 유용하고
+# numpy, pandas에서 unique 함수 사용하면 안에 있는 서로 다름 값들 나옴(기본 제공되는 set와 유사)
+# 귀찮은거 아님
+# numpy: https://numpy.org/doc/1.24/ # 마지막은 버전명
+# pandas: https://pandas.pydata.org/docs/
+# matplotlib: https://matplotlib.org/stable/index.html
+# 교수님 추천 링크: https://jakevdp.github.io/PythonDataScienceHandbook/index.html

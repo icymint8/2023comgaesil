@@ -278,7 +278,12 @@ print(c)
 # 계산기
 import numpy as np
 def broad_calc(args1, args2):
-    print(np.arange(sum(args1)).reshape((args1)) + np.arange(sum(args2)).reshape(args2))
+    m1, m2 = 1, 1
+    for i in args1:
+        m1 *= i
+    for j in args2:
+        m2 *= j
+    print(np.arange(m1).reshape((args1)) + np.arange(m2).reshape(args2))
 
 a1 = tuple(map(int, input().split()))
 a2 = tuple(map(int, input().split()))
